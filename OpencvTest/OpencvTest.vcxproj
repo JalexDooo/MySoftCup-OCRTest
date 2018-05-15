@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E3597F35-F854-4384-B145-D96670EF5648}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>OpencvTest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="include\tesseract_versionnumbers.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="include\tesseract_versionnumbers.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="include\tesseract_versionnumbers.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="include\tesseract_versionnumbers.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files (x86)\Tesseract-OCR\include;C:\Program Files (x86)\Tesseract-OCR\include\leptonica;C:\Program Files (x86)\Tesseract-OCR\include\tesseract;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Tesseract-OCR\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_WINDOWS;NDEBUG;USE_STD_NAMESPACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Tesseract-OCR\include\tesseract;C:\Program Files (x86)\Tesseract-OCR\include\leptonica;C:\Program Files (x86)\Tesseract-OCR\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StackReserveSize>
+      </StackReserveSize>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Tesseract-OCR\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;user32.lib;jpeg.lib;opencv_world320.lib;opencv_world320d.lib;libtesseract-4.lib;pvt.cppan.demo.danbloomberg.leptonica-1.74.1.lib;pvt.cppan.demo.gif-5.1.4.lib;pvt.cppan.demo.jpeg-9.2.0.lib;pvt.cppan.demo.madler.zlib-1.2.11.lib;pvt.cppan.demo.mgk25.jbig.ar-2.1.0.lib;pvt.cppan.demo.mgk25.jbig.jbig-2.1.0.lib;pvt.cppan.demo.openjpeg.openjp2-2.1.2.lib;pvt.cppan.demo.png-1.6.28.lib;pvt.cppan.demo.tiff-4.0.7.lib;pvt.cppan.demo.webp-0.6.0.lib;pvt.cppan.demo.xz_utils.lzma-5.2.2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\jconfig.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\jerror.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\jmorecfg.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\jpeglib.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\allheaders.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\alltypes.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\array.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\arrayaccess.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\bbuffer.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\bmf.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\bmp.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\ccbord.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\dewarp.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\endianness.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\environ.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\freetype.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\gplot.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\heap.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\imageio.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\jbclass.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\leptprotos.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\leptwin.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\list.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\morph.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\pix.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\ptra.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\queue.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\readbarcode.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\regutils.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\stack.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\sudoku.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\leptonica\watershed.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\png.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\pngconf.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\apitypes.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\baseapi.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\basedir.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\capi.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\errcode.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\fileerr.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\genericvector.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\helpers.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\host.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\ltrresultiterator.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\memry.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\ndminx.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\pageiterator.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\params.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\platform.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\publictypes.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\resultiterator.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\serialis.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\strngs.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\tesscallback.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\thresholder.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\unichar.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\unicharmap.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tesseract\unicharset.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tiff.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tiffconf.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tiffio.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tiffvers.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\tif_config.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\zconf.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Tesseract-OCR\include\zlib.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OpencvTest.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
