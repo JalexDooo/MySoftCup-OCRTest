@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpencvTest", "OpencvTest\OpencvTest.vcxproj", "{E3597F35-F854-4384-B145-D96670EF5648}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup3", "Setup3\Setup3.vdproj", "{C14C58E0-9A28-4EBD-BFF6-9EBF36C51E39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{E3597F35-F854-4384-B145-D96670EF5648}.Release|Win32.Build.0 = Release|Win32
 		{E3597F35-F854-4384-B145-D96670EF5648}.Release|x64.ActiveCfg = Release|x64
 		{E3597F35-F854-4384-B145-D96670EF5648}.Release|x64.Build.0 = Release|x64
+		{C14C58E0-9A28-4EBD-BFF6-9EBF36C51E39}.Debug|Win32.ActiveCfg = Debug
+		{C14C58E0-9A28-4EBD-BFF6-9EBF36C51E39}.Debug|x64.ActiveCfg = Debug
+		{C14C58E0-9A28-4EBD-BFF6-9EBF36C51E39}.Release|Win32.ActiveCfg = Release
+		{C14C58E0-9A28-4EBD-BFF6-9EBF36C51E39}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A9432D6-A29F-40CF-85C0-F49C46815431}
 	EndGlobalSection
 EndGlobal

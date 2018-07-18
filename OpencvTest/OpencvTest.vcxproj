@@ -36,6 +36,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -113,7 +114,7 @@
       <StackReserveSize>
       </StackReserveSize>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Tesseract-OCR\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ws2_32.lib;user32.lib;jpeg.lib;opencv_world320.lib;opencv_world320d.lib;libtesseract-4.lib;pvt.cppan.demo.danbloomberg.leptonica-1.74.1.lib;pvt.cppan.demo.gif-5.1.4.lib;pvt.cppan.demo.jpeg-9.2.0.lib;pvt.cppan.demo.madler.zlib-1.2.11.lib;pvt.cppan.demo.mgk25.jbig.ar-2.1.0.lib;pvt.cppan.demo.mgk25.jbig.jbig-2.1.0.lib;pvt.cppan.demo.openjpeg.openjp2-2.1.2.lib;pvt.cppan.demo.png-1.6.28.lib;pvt.cppan.demo.tiff-4.0.7.lib;pvt.cppan.demo.webp-0.6.0.lib;pvt.cppan.demo.xz_utils.lzma-5.2.2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;user32.lib;jpeg.lib;opencv_world320d.lib;libtesseract-4.lib;pvt.cppan.demo.danbloomberg.leptonica-1.74.1.lib;pvt.cppan.demo.gif-5.1.4.lib;pvt.cppan.demo.jpeg-9.2.0.lib;pvt.cppan.demo.madler.zlib-1.2.11.lib;pvt.cppan.demo.mgk25.jbig.ar-2.1.0.lib;pvt.cppan.demo.mgk25.jbig.jbig-2.1.0.lib;pvt.cppan.demo.openjpeg.openjp2-2.1.2.lib;pvt.cppan.demo.png-1.6.28.lib;pvt.cppan.demo.tiff-4.0.7.lib;pvt.cppan.demo.webp-0.6.0.lib;pvt.cppan.demo.xz_utils.lzma-5.2.2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
