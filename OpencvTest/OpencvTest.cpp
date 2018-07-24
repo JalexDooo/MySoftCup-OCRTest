@@ -12,7 +12,9 @@
 #include <tesseract/baseapi.h>
 #include <strngs.h>
 #include <leptonica/allheaders.h>
+#include <time.h>
 
+#define NAME_LINE   40
 using namespace cv;
 using namespace std;
 bool CLASS1 = false;
@@ -446,118 +448,42 @@ string inoutstream(string str) {
 	return res;
 }
 
-int _tmain(int argc, _TCHAR* argv[]) {
+string inpath, outpath, tmp;
+vector<string> files;
+string path;
+size_t file_size;
+ofstream outFile;
+int single_deal;
 
-	//Mat image1 = imread("C:\\Users\\juntysun\\Desktop\\OpenCV_Temp\\40.png", IMREAD_COLOR);
 
-	/*Mat restmp = __PreTreatment_Image(image1);
-	tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-	api->Init(NULL, "chi_sim");
-	api->SetImage((uchar*)restmp.data, restmp.size().width, restmp.size().height, 1, restmp.size().width);
-	char* out = api->GetUTF8Text();
-	wchar_t* chi_out = Utf_8ToUnicode(out);
-	char* chi_res = UnicodeToAnsi(chi_out);
-	printf("%s", chi_res);
 
-	return 0;*/
-	/******************************/
-	//image1 = __PreTreatment_Image(image1);
-	//cv::imshow("ttest2", image1);
-	//cv::waitKey();
-
-	string inpath, outpath, tmp;
-	cout << "请输入图片输入路径：";
-	cin >> tmp;
-	inpath = inoutstream(tmp);
-	cout << inpath << endl;
-
-	string path = inpath;
-	vector<string> files;
-	getAllFile(path, files);
-	size_t file_size = files.size();
-	std::printf("处理图片个数：%d\n", file_size);
-	for (int i = 0; i < file_size; ++i) {
-		cout << files[i] << endl;
-	}
-	cout << "请输入识别输出路径：";
-	cin >> tmp;
-	outpath = inoutstream(tmp);
-	cout << outpath << endl;
-	outpath += "\\\data.csv";
-	ofstream outFile;
-	outFile.open(outpath, ios::out);
-	outFile << "企业名称," << "注册号" << endl;
-	for (int current = 0; current < file_size; ++current) {
-		//读入图片，注意图片路径    
+void Done(int current) {
+	//for (int current = 0; current < file_size; ++current) {
 		Mat image = imread(files[current], IMREAD_COLOR);
-
-
-		//图片读入成功与否判定    
 		if (!image.data) {
 			std::cout << "图像不存在!" << endl;
-			system("pause");
-			return -1;
+			return ;
 		}
-
 		//图像预处理
 		image = __PreTreatment_Image(image);
+
+		//Mat image = imagee[current];
 		Mat dst = image;
-
-
 		Mat res = image.clone();
-		//提取文字区域
-		//Canny(res, res, 3, 9, 3);
 		Mat tmp = __Region(image);
 		vector<Rect> RectList;
 		getConnectedRegion(tmp, RectList, dst);
 
-		/*vector<int> a;
-		a.push_back(IMWRITE_PNG_COMPRESSION);
-		a.push_back(9);
-		string str = "";
-		str += to_string(current+1);
-		str += ".tif";
-		imwrite(str, res, a);*/
-
-
-
-		/*Pix *img;
-		img = pixRead("C:\\Users\\juntysun\\Documents\\Visual Studio 2013\\Projects\\OpencvTest\\OpencvTest\\1.png");*/
-
-		/*cv::imshow("123", res);
-		std::printf("REC.SIZE(): %d\n", RectList[0].width);*/
-
-
-
 		tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
 		api->Init(NULL, "chi_sim");
 
-		//api->SetImage((uchar*)res.data, res.size().width, res.size().height, 1, res.size().width);
-		//api->SetImage(img);
-		/*api->Recognize(0);
-		Boxa* boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
-		printf("%d Textline\n", boxes->n);
-		for (int i = 0; i < boxes->n; ++i) {
-		BOX* box = boxaGetBox(boxes, i, L_CLONE);
-		api->SetRectangle(box->x, box->y, box->w, box->h);
-		char* out = api->GetUTF8Text();
-		int conf = api->MeanTextConf();
-		wchar_t* chi_out = Utf_8ToUnicode(out);
-		char* chi_res = UnicodeToAnsi(chi_out);
-		cout << chi_res << endl;
-		cout << out << endl;
-		///233
-		}*/
-
 		//print to Excel.
-
 		bool nameok = false, numok = false;
 
 		char* exl_name = new char[50];
 		char* exl_num = new char[50];
 		for (int rect = 0; rect < RectList.size(); ++rect) {
 			if (RectList[rect].width >= 15 && RectList[rect].width <= 37) {
-
 
 				Rect rec;
 				rec.width = RectList[rect].height + 20;
@@ -604,8 +530,9 @@ int _tmain(int argc, _TCHAR* argv[]) {
 		outFile << exl_name << ",'" << exl_num << endl;
 
 
-	}
-	outFile.close();
+	//}
+	
+
 
 	/*int len_chi_res = 0;
 	for (int i = 0; i < strlen(chi_res); ++i) {
@@ -630,8 +557,135 @@ int _tmain(int argc, _TCHAR* argv[]) {
 	anss[k++] = '\0';
 	cout << anss << endl;*/
 
-	cv::waitKey();
+	//cv::waitKey();
+}
+
+///////////////////////定义线程函数传入参数的结构体
+typedef struct __THREAD_DATA
+{
+	int nMaxNum, id;
+	char strThreadName[NAME_LINE];
+
+	__THREAD_DATA() : nMaxNum(0)
+	{
+		memset(strThreadName, 0, NAME_LINE * sizeof(char));
+	}
+}THREAD_DATA;
+
+HANDLE g_hMutex = NULL;     //互斥量
+
+//线程函数
+DWORD WINAPI ThreadProc(LPVOID lpParameter) {
+	THREAD_DATA* pThreadData = (THREAD_DATA*)lpParameter;
+
+	
+	for (int i = 0; i < pThreadData->nMaxNum; ++i) {
+		int current = pThreadData->id * single_deal + i;
+		if (current >= file_size) break;
+
+		//请求获得一个互斥量锁
+		WaitForSingleObject(g_hMutex, INFINITE);
+
+		printf("ID: %d  current: %d\n", pThreadData->id, current);
+		
+		Done(current);
+		
+		//释放互斥量锁
+		ReleaseMutex(g_hMutex);
+	}
+	return 0L;
+}
+/////////////////////////
+//   C:\Users\juntysun\Desktop\OpenCV_Temp\TMExample
+//   C:\Users\juntysun\Desktop\PrintData
+
+int _tmain(int argc, _TCHAR* argv[]) {
+
+
+
+	clock_t t1 = clock();
+
+	cout << "请输入图片输入路径：";
+	cin >> tmp;
+	inpath = inoutstream(tmp);
+	cout << inpath << endl;
+	path = inpath;
+	getAllFile(path, files);
+	file_size = files.size();
+	std::printf("处理图片个数：%d\n", file_size);
+	for (int i = 0; i < file_size; ++i) {
+		cout << files[i] << endl;
+	}
+	cout << "请输入识别输出路径：";
+	cin >> tmp;
+	outpath = inoutstream(tmp);
+	cout << outpath << endl;
+	outpath += "\\\data.csv";
+	outFile.open(outpath, ios::out);
+	outFile << "企业名称," << "注册号" << endl;
+	single_deal = (file_size + 4) / 4;
+
+	//创建一个互斥量
+	g_hMutex = CreateMutex(NULL, FALSE, NULL);
+
+	//初始化线程数据
+	THREAD_DATA threadData1, threadData2, threadData3, threadData4;
+
+	threadData1.nMaxNum = single_deal;
+	threadData1.id = 0;
+	strcpy_s(threadData1.strThreadName, "线程1");
+
+	threadData2.nMaxNum = single_deal;
+	threadData2.id = 1;
+	strcpy_s(threadData2.strThreadName, "线程2");
+
+	threadData3.nMaxNum = single_deal;
+	threadData3.id = 2;
+	strcpy_s(threadData3.strThreadName, "线程3");
+
+	threadData4.nMaxNum = single_deal;
+	threadData4.id = 3;
+	strcpy_s(threadData4.strThreadName, "线程4");
+
+
+	//创建第1个子线程
+	HANDLE hThread1 = CreateThread(NULL, 0, ThreadProc, &threadData1, 0, NULL);
+	//创建第2个子线程
+	HANDLE hThread2 = CreateThread(NULL, 0, ThreadProc, &threadData2, 0, NULL);
+	//创建第3个子线程
+	HANDLE hThread3 = CreateThread(NULL, 0, ThreadProc, &threadData3, 0, NULL);
+	//创建第4个子线程
+	HANDLE hThread4 = CreateThread(NULL, 0, ThreadProc, &threadData4, 0, NULL);
+
+	// 挂起线程
+	/*SuspendThread(hThread2);
+	SuspendThread(hThread3);
+	SuspendThread(hThread4);
+
+	Sleep(2000);
+	ResumeThread(hThread2);
+	ResumeThread(hThread3);
+	ResumeThread(hThread4);*/
+
+
+
+
+	CloseHandle(hThread1);
+	CloseHandle(hThread2);
+	CloseHandle(hThread3);
+	CloseHandle(hThread4);
+
+	clock_t t2 = clock();
+	std::cout << "time: " << t2 - t1 << std::endl;
+	outFile.close();
+
+	
+	system("pause");
 
 	return 0;
+
+
+
+	
 
 }
