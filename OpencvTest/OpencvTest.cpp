@@ -303,6 +303,9 @@ Mat __PreTreatment_Image(Mat& image) {
 	__Boolean(image);
 
 	if (!CLASS1) {
+		//跳过，不处理
+		return image;
+
 		//图片缩放
 		__Zoom_Out(image);
 
@@ -384,7 +387,6 @@ void __DealPrint(char* str, char* namestr, char* numstr, bool &name, bool &num) 
 		if (str[i] != ' ' && str[i] != '\n') str[k++] = str[i];
 	}
 	str[k++] = '\0';
-	//std::printf("last: %c%c\n", str[k - 3], str[k - 2]);
 	std::printf("size: %d %s\n", k, str);
 
 	if (!name) {
@@ -457,16 +459,30 @@ int single_deal;
 
 
 
-void Done(int current) {
-	//for (int current = 0; current < file_size; ++current) {
+void Done() {
+	for (int current = 0; current < file_size; ++current) {
+		CLASS1 = false;
 		Mat image = imread(files[current], IMREAD_COLOR);
 		if (!image.data) {
 			std::cout << "图像不存在!" << endl;
 			return ;
 		}
+
+		//提取文件名
+		char* exl_png = new char[100];
+		int kk = 0;
+		for (int j = 1; j < files[current].size(); ++j) {
+			if (files[current][j - 1] == '\\' && files[current][j] != '\\')
+				kk = 0;
+			exl_png[kk++] = files[current][j];
+		}
+		exl_png[kk++] = '\0';
 		//图像预处理
 		image = __PreTreatment_Image(image);
-
+		if (!CLASS1) {
+			outFile << "无法识别次图片,无法识别此图片," << exl_png << endl;
+			continue;
+		}
 		//Mat image = imagee[current];
 		Mat dst = image;
 		Mat res = image.clone();
@@ -480,6 +496,7 @@ void Done(int current) {
 		//print to Excel.
 		bool nameok = false, numok = false;
 
+		
 		char* exl_name = new char[50];
 		char* exl_num = new char[50];
 		for (int rect = 0; rect < RectList.size(); ++rect) {
@@ -496,7 +513,7 @@ void Done(int current) {
 
 				for (int i = x; i < width + x; ++i)
 					for (int j = y; j < height + y; ++j)
-						restmp.ptr<uchar>(i - x + 19)[j - y + 3] = res.ptr<uchar>(i)[j];// == 255 ? 0 : 255;
+						restmp.ptr<uchar>(i - x + 10)[j - y + 3] = res.ptr<uchar>(i)[j];// == 255 ? 0 : 255;
 
 
 
@@ -527,10 +544,11 @@ void Done(int current) {
 		}
 
 		api->End();
-		outFile << exl_name << ",'" << exl_num << endl;
+		
+		outFile << exl_name << ",'" << exl_num << "," << exl_png << endl;
 
 
-	//}
+	}
 	
 
 
@@ -561,127 +579,191 @@ void Done(int current) {
 }
 
 ///////////////////////定义线程函数传入参数的结构体
-typedef struct __THREAD_DATA
-{
-	int nMaxNum, id;
-	char strThreadName[NAME_LINE];
-
-	__THREAD_DATA() : nMaxNum(0)
-	{
-		memset(strThreadName, 0, NAME_LINE * sizeof(char));
-	}
-}THREAD_DATA;
-
-HANDLE g_hMutex = NULL;     //互斥量
-
-//线程函数
-DWORD WINAPI ThreadProc(LPVOID lpParameter) {
-	THREAD_DATA* pThreadData = (THREAD_DATA*)lpParameter;
-
-	
-	for (int i = 0; i < pThreadData->nMaxNum; ++i) {
-		int current = pThreadData->id * single_deal + i;
-		if (current >= file_size) break;
-
-		//请求获得一个互斥量锁
-		WaitForSingleObject(g_hMutex, INFINITE);
-
-		printf("ID: %d  current: %d\n", pThreadData->id, current);
-		
-		Done(current);
-		
-		//释放互斥量锁
-		ReleaseMutex(g_hMutex);
-	}
-	return 0L;
-}
+//typedef struct __THREAD_DATA
+//{
+//	int nMaxNum, id;
+//	char strThreadName[NAME_LINE];
+//
+//	__THREAD_DATA() : nMaxNum(0)
+//	{
+//		memset(strThreadName, 0, NAME_LINE * sizeof(char));
+//	}
+//}THREAD_DATA;
+//
+//HANDLE g_hMutex = NULL;     //互斥量
+//
+////线程函数
+//DWORD WINAPI ThreadProc(LPVOID lpParameter) {
+//	THREAD_DATA* pThreadData = (THREAD_DATA*)lpParameter;
+//
+//	
+//	for (int i = 0; i < pThreadData->nMaxNum; ++i) {
+//		int current = pThreadData->id * single_deal + i;
+//		if (current >= file_size) break;
+//
+//		//请求获得一个互斥量锁
+//		WaitForSingleObject(g_hMutex, INFINITE);
+//
+//		printf("ID: %d  current: %d\n", pThreadData->id, current);
+//		
+//		Done(current);
+//		
+//		//释放互斥量锁
+//		ReleaseMutex(g_hMutex);
+//	}
+//	return 0L;
+//}
 /////////////////////////
-//   C:\Users\juntysun\Desktop\OpenCV_Temp\TMExample
-//   C:\Users\juntysun\Desktop\PrintData
+
+
+
+   /*C:\Users\juntysun\Desktop\OpenCV_Temp\TMExample
+   C:\Users\juntysun\Desktop\PrintData*/
 
 int _tmain(int argc, _TCHAR* argv[]) {
 
+	/////////demo
+	//Mat image = cv::imread("C:\\Users\\juntysun\\Desktop\\OpenCV_Temp\\TMExample\\40.jpeg", IMREAD_COLOR);
+	//image = __PreTreatment_Image(image);
+	//
+	//Mat dst = image;
+	//Mat res = image.clone();
+	//cv::imshow("40.png", res);
+	//cv::waitKey();
+	//Mat tmp = __Region(image);
+	//vector<Rect> RectList;
+	//getConnectedRegion(tmp, RectList, dst);
+
+	//tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+	//api->Init(NULL, "chi_sim");
+
+	////print to Excel.
+	//bool nameok = false, numok = false;
+
+	//char* exl_name = new char[50];
+	//char* exl_num = new char[50];
+	//for (int rect = 0; rect < RectList.size(); ++rect) {
+	//	if (RectList[rect].width >= 15 && RectList[rect].width <= 37) {
+
+	//		Rect rec;
+	//		rec.width = RectList[rect].height + 20;
+	//		rec.height = RectList[rect].width + 20;
+
+	//		Mat restmp = Mat(rec.size(), CV_8UC1, Scalar::all(0));
+
+	//		int x = RectList[rect].x, y = RectList[rect].y;
+	//		int width = RectList[rect].width, height = RectList[rect].height;
+
+	//		for (int i = x; i < width + x; ++i)
+	//			for (int j = y; j < height + y; ++j)
+	//				restmp.ptr<uchar>(i - x + 10)[j - y + 3] = res.ptr<uchar>(i)[j];// == 255 ? 0 : 255;
+	//		api->SetImage((uchar*)restmp.data, restmp.size().width, restmp.size().height, 1, restmp.size().width);
+
+	//		//api->SetImage(img);
+
+	//		char* out = api->GetUTF8Text();
+	//		wchar_t* chi_out = Utf_8ToUnicode(out);
+	//		char* chi_res = UnicodeToAnsi(chi_out);
+	//		std::cout << chi_res << std::endl;
 
 
-	clock_t t1 = clock();
+	//		__DealPrint(chi_res, exl_name, exl_num, nameok, numok);
 
-	cout << "请输入图片输入路径：";
-	cin >> tmp;
+	//		std::printf("%d %d\n", nameok, numok);
+
+	//		//测试
+	//		cv::imshow("test", restmp);
+	//		cv::waitKey();
+
+	//		if (nameok == true && numok == true) {
+	//			break;
+	//		}
+
+
+	//	}
+	//}
+
+	//api->End();
+	//outFile << exl_name << ",'" << exl_num << endl;
+
+	///////////////
+
+	
+	std::cout << "请输入图片输入路径：";
+	std::cin >> tmp;
 	inpath = inoutstream(tmp);
-	cout << inpath << endl;
+	std::cout << inpath << endl;
 	path = inpath;
 	getAllFile(path, files);
 	file_size = files.size();
 	std::printf("处理图片个数：%d\n", file_size);
 	for (int i = 0; i < file_size; ++i) {
-		cout << files[i] << endl;
+		std::cout << files[i] << endl;
 	}
-	cout << "请输入识别输出路径：";
-	cin >> tmp;
+	std::cout << "请输入识别输出路径：";
+	std::cin >> tmp;
 	outpath = inoutstream(tmp);
-	cout << outpath << endl;
+	std::cout << outpath << endl;
 	outpath += "\\\data.csv";
 	outFile.open(outpath, ios::out);
-	outFile << "企业名称," << "注册号" << endl;
+	outFile << "企业名称,注册号,备注" << endl;
 	single_deal = (file_size + 4) / 4;
 
-	//创建一个互斥量
-	g_hMutex = CreateMutex(NULL, FALSE, NULL);
+	Done();
 
-	//初始化线程数据
-	THREAD_DATA threadData1, threadData2, threadData3, threadData4;
+	////创建一个互斥量
+	//g_hMutex = CreateMutex(NULL, FALSE, NULL);
 
-	threadData1.nMaxNum = single_deal;
-	threadData1.id = 0;
-	strcpy_s(threadData1.strThreadName, "线程1");
+	////初始化线程数据
+	//THREAD_DATA threadData1, threadData2, threadData3, threadData4;
 
-	threadData2.nMaxNum = single_deal;
-	threadData2.id = 1;
-	strcpy_s(threadData2.strThreadName, "线程2");
+	//threadData1.nMaxNum = single_deal;
+	//threadData1.id = 0;
+	//strcpy_s(threadData1.strThreadName, "线程1");
 
-	threadData3.nMaxNum = single_deal;
-	threadData3.id = 2;
-	strcpy_s(threadData3.strThreadName, "线程3");
+	//threadData2.nMaxNum = single_deal;
+	//threadData2.id = 1;
+	//strcpy_s(threadData2.strThreadName, "线程2");
 
-	threadData4.nMaxNum = single_deal;
-	threadData4.id = 3;
-	strcpy_s(threadData4.strThreadName, "线程4");
+	//threadData3.nMaxNum = single_deal;
+	//threadData3.id = 2;
+	//strcpy_s(threadData3.strThreadName, "线程3");
 
-
-	//创建第1个子线程
-	HANDLE hThread1 = CreateThread(NULL, 0, ThreadProc, &threadData1, 0, NULL);
-	//创建第2个子线程
-	HANDLE hThread2 = CreateThread(NULL, 0, ThreadProc, &threadData2, 0, NULL);
-	//创建第3个子线程
-	HANDLE hThread3 = CreateThread(NULL, 0, ThreadProc, &threadData3, 0, NULL);
-	//创建第4个子线程
-	HANDLE hThread4 = CreateThread(NULL, 0, ThreadProc, &threadData4, 0, NULL);
-
-	// 挂起线程
-	/*SuspendThread(hThread2);
-	SuspendThread(hThread3);
-	SuspendThread(hThread4);
-
-	Sleep(2000);
-	ResumeThread(hThread2);
-	ResumeThread(hThread3);
-	ResumeThread(hThread4);*/
+	//threadData4.nMaxNum = single_deal;
+	//threadData4.id = 3;
+	//strcpy_s(threadData4.strThreadName, "线程4");
 
 
+	////创建第1个子线程
+	//HANDLE hThread1 = CreateThread(NULL, 0, ThreadProc, &threadData1, 0, NULL);
+	////创建第2个子线程
+	//HANDLE hThread2 = CreateThread(NULL, 0, ThreadProc, &threadData2, 0, NULL);
+	////创建第3个子线程
+	//HANDLE hThread3 = CreateThread(NULL, 0, ThreadProc, &threadData3, 0, NULL);
+	////创建第4个子线程
+	//HANDLE hThread4 = CreateThread(NULL, 0, ThreadProc, &threadData4, 0, NULL);
+
+	//// 挂起线程
+	///*SuspendThread(hThread2);
+	//SuspendThread(hThread3);
+	//SuspendThread(hThread4);
+
+	//Sleep(2000);
+	//ResumeThread(hThread2);
+	//ResumeThread(hThread3);
+	//ResumeThread(hThread4);*/
 
 
-	CloseHandle(hThread1);
-	CloseHandle(hThread2);
-	CloseHandle(hThread3);
-	CloseHandle(hThread4);
 
-	clock_t t2 = clock();
-	std::cout << "time: " << t2 - t1 << std::endl;
+
+	//CloseHandle(hThread1);
+	//CloseHandle(hThread2);
+	//CloseHandle(hThread3);
+	//CloseHandle(hThread4);
 	outFile.close();
 
-	
-	system("pause");
 
+	
 	return 0;
 
 
